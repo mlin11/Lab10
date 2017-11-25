@@ -198,7 +198,7 @@ public class PrimeNumGenN extends JFrame
 			for (Integer key : keys)
 			{
 				buff.append(key + "\n");
-				// list.add(key)
+				// list.add(key);
 			}
 			buff.append("Time " + (System.currentTimeMillis() - startTime) / 1000f + "S" + "\n");
 			if (cancel)
