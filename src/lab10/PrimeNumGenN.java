@@ -193,7 +193,7 @@ public class PrimeNumGenN extends JFrame
 			// get the final output
 			final StringBuffer buff = new StringBuffer();
 			SortedSet<Integer> keys = new TreeSet<Integer>(primeMap.keySet());
-			// Uncomment this line and next commented line to store primes in a list
+			// Uncomment next two commented lines to store primes in a list
 			// List<Integer> list = new ArrayList<Integer>();
 			for (Integer key : keys)
 			{
