@@ -9,6 +9,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,7 +28,9 @@ public class PrimeNumGenN extends JFrame
 	private final PrimeNumGenN thisFrame;
 
 	private static final Map<Integer, Integer> primeMap = new ConcurrentHashMap<Integer, Integer>();
-	private static final Map<Integer, Integer> labelMap = new ConcurrentHashMap<Integer, Integer>();
+	// private static final Map<Integer, Integer> labelMap = new
+	// ConcurrentHashMap<Integer, Integer>();
+	private static AtomicLong atomicLong = new AtomicLong();
 	private static final int NUM_PROC = Runtime.getRuntime().availableProcessors();
 	private static final CyclicBarrier barrier = new CyclicBarrier(NUM_PROC);
 	long startTime;
@@ -93,7 +96,8 @@ public class PrimeNumGenN extends JFrame
 					cancelButton.setEnabled(true);
 					cancel = false;
 					primeMap.clear();
-					labelMap.clear();
+					atomicLong.set(0);
+					// labelMap.clear();
 					new Thread(new UserInput()).start();
 					startTime = System.currentTimeMillis();
 				}
@@ -129,15 +133,18 @@ public class PrimeNumGenN extends JFrame
 			{
 				for (int i = num; i <= max && !cancel; i = i + NUM_PROC)
 				{
-					labelMap.put(i, 1);
+					// labelMap.put(i, 1);
+					atomicLong.addAndGet(1);
 					if (isPrime(i))
 					{
 						primeMap.put(i, 1);
 
 						if (System.currentTimeMillis() - lastUpdate > 500)
 						{
-							final String outString = "Found " + primeMap.size() + " in " + labelMap.size() + " of "
-									+ max;
+							// final String outString = "Found " + primeMap.size() + " in " +
+							// labelMap.size() + " of "
+							// + max;
+							final String outString = "Found " + primeMap.size() + " in " + atomicLong + " of " + max;
 							SwingUtilities.invokeLater(new Runnable()
 							{
 								@Override
